@@ -608,6 +608,13 @@ class OC_Image implements \OCP\IImage {
 			case IMAGETYPE_BMP:
 				$this->resource = $this->imagecreatefrombmp($imagePath);
 				break;
+			case IMAGETYPE_WEBP:
+				if (imagetypes() & IMG_WEBP) {
+					$this->resource = @imagecreatefromwebp($imagePath);
+				} else {
+					$this->logger->debug('OC_Image->loadFromFile, webp images not supported: ' . $imagePath, ['app' => 'core']);
+				}
+				break;
 			/*
 			case IMAGETYPE_TIFF_II: // (intel byte order)
 				break;
